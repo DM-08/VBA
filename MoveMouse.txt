@@ -1,0 +1,25 @@
+' Access the GetCursorPos function in user32.dll
+Private dtmNext As Date
+      Private Declare PtrSafe Function GetCursorPos Lib "user32" (lpPoint As POINTAPI) As Long
+      ' Access the GetCursorPos function in user32.dll
+      Private Declare PtrSafe Function SetCursorPos Lib "user32" (ByVal x As Long, ByVal y As Long) As Long
+
+
+      Type POINTAPI
+         x As Long
+         y As Long
+      End Type
+
+
+
+Sub Move_Cursor()
+    Dim Hold As POINTAPI
+    GetCursorPos Hold
+    SetCursorPos Hold.x + 100, Hold.y
+    dtmNext = DateAdd("n", 1, Now)
+    Application.OnTime dtmNext, "Move_Cursor"
+End Sub
+
+Sub Stop_Cursor()
+    Application.OnTime dtmNext, "Move_Cursor", , False
+End Sub
